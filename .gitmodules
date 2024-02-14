@@ -4,4 +4,4 @@
 [submodule "volesti"]
 	path = volesti
 	url = https://github.com/GeomScale/volesti.git
-	branch = volesti4dingo
+	branch = develop
