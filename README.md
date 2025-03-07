@@ -1,15 +1,15 @@
 <p align="center"><img src="doc/logo/dingo.jpg" width="260" height="260"></p>
 
-**dingo** is a Python package that analyzes metabolic networks.
+**dingo-walk** is a Python package that analyzes metabolic networks.
 It relies on high dimensional sampling with Markov Chain Monte Carlo (MCMC)
 methods and fast optimization methods to analyze the possible states of a
-metabolic network. To perform MCMC sampling, `dingo` relies on the `C++` library
+metabolic network. To perform MCMC sampling, `dingo-walk` relies on the `C++` library
 [volesti](https://github.com/GeomScale/volume_approximation), which provides
 several algorithms for sampling convex polytopes.
-`dingo` also performs two standard methods to analyze the flux space of a
+`dingo-walk` also performs two standard methods to analyze the flux space of a
 metabolic network, namely Flux Balance Analysis and Flux Variability Analysis.
 
-`dingo` is part of [GeomScale](https://geomscale.github.io/) project.
+`dingo-walk` is part of [GeomScale](https://geomscale.github.io/) project.
 
 [![unit-tests](https://github.com/GeomScale/dingo/workflows/dingo-ubuntu/badge.svg)](https://github.com/GeomScale/dingo/actions?query=workflow%3Adingo-ubuntu)
 [![Tutorial In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GeomScale/dingo/blob/develop/tutorials/dingo_tutorial.ipynb)
@@ -28,7 +28,7 @@ If you have a different version of Python installed, you'll need to install it (
 
 
 
-To load the submodules that dingo uses, run
+To load the submodules that dingo-walk uses, run
 
 ````bash
 git submodule update --init
@@ -62,7 +62,7 @@ poetry shell
 poetry install
 ```
 
-To exploit the fast implementations of dingo, you have to install the [Gurobi solver](https://www.gurobi.com/). Run
+To exploit the fast implementations of dingo-walk, you have to install the [Gurobi solver](https://www.gurobi.com/). Run
 
 ```
 pip3 install -i https://pypi.gurobi.com gurobipy
@@ -93,28 +93,28 @@ python3 tests/fast_implementation_test.py
 ## Tutorial
 
 You can have a look at our [Google Colab notebook](https://colab.research.google.com/github/GeomScale/dingo/blob/develop/tutorials/dingo_tutorial.ipynb)
-on how to use `dingo`.
+on how to use `dingo-walk`.
 
 
 ## Documentation
 
 
-It quite simple to use dingo in your code. In general, dingo provides two classes:
+It quite simple to use dingo-walk in your code. In general, dingo-walk provides two classes:
 
 - `metabolic_network` represents a metabolic network
 - `polytope_sampler` can be used to sample from the flux space of a metabolic network or from a general convex polytope.
 
- The following script shows how you could sample steady states of a metabolic network with dingo. To initialize a metabolic network object you have to provide the path to the `json` file as those in [BiGG](http://bigg.ucsd.edu/models) dataset or the `mat` file (using the `matlab` wrapper in folder `/ext_data` to modify a standard `mat` file of a model as those in BiGG dataset):
+ The following script shows how you could sample steady states of a metabolic network with dingo-walk. To initialize a metabolic network object you have to provide the path to the `json` file as those in [BiGG](http://bigg.ucsd.edu/models) dataset or the `mat` file (using the `matlab` wrapper in folder `/ext_data` to modify a standard `mat` file of a model as those in BiGG dataset):
 
 ```python
-from dingo import MetabolicNetwork, PolytopeSampler
+from dingo-walk import MetabolicNetwork, PolytopeSampler
 
 model = MetabolicNetwork.from_json('path/to/model_file.json')
 sampler = PolytopeSampler(model)
 steady_states = sampler.generate_steady_states()
 ```
 
-`dingo` can also load a model given in `.sbml` format using the following command,
+`dingo-walk` can also load a model given in `.sbml` format using the following command,
 
 ```python
 model = MetabolicNetwork.from_sbml('path/to/model_file.sbml')
@@ -142,10 +142,10 @@ The default option is to run the sequential [Multiphase Monte Carlo Sampling alg
 
 #### Rounding the polytope
 
-`dingo` provides three methods to round a polytope: (i) Bring the polytope to John position by apllying to it the transformation that maps the largest inscribed ellipsoid of the polytope to the unit ball, (ii) Bring the polytope to near-isotropic position by using uniform sampling with Billiard Walk, (iii) Apply to the polytope the transformation that maps the smallest enclosing ellipsoid of a uniform sample from the interior of the polytope to the unit ball.
+`dingo-walk` provides three methods to round a polytope: (i) Bring the polytope to John position by apllying to it the transformation that maps the largest inscribed ellipsoid of the polytope to the unit ball, (ii) Bring the polytope to near-isotropic position by using uniform sampling with Billiard Walk, (iii) Apply to the polytope the transformation that maps the smallest enclosing ellipsoid of a uniform sample from the interior of the polytope to the unit ball.
 
 ```python
-from dingo import MetabolicNetwork, PolytopeSampler
+from dingo-walk import MetabolicNetwork, PolytopeSampler
 
 model = MetabolicNetwork.from_json('path/to/model_file.json')
 sampler = PolytopeSampler(model)
@@ -165,21 +165,21 @@ samples = sample_from_polytope(A_rounded, b_rounded)
 Last you can map the samples back to steady states,
 
 ```python
-from dingo import map_samples_to_steady_states
+from dingo-walk import map_samples_to_steady_states
 
 steady_states = map_samples_to_steady_states(samples, N, N_shift, Tr, Tr_shift)
 ```
 
 #### Other MCMC sampling methods
 
-To use any other MCMC sampling method that `dingo` provides you can use the following piece of code:
+To use any other MCMC sampling method that `dingo-walk` provides you can use the following piece of code:
 
 ```python
 sampler = polytope_sampler(model)
 steady_states = sampler.generate_steady_states_no_multiphase() #default parameters (method = 'billiard_walk', n=1000, burn_in=0, thinning=1)
 ```
 
-The MCMC methods that dingo (through `volesti` library) provides are the following: (i) 'cdhr': Coordinate Directions Hit-and-Run, (ii) 'rdhr': Random Directions Hit-and-Run,
+The MCMC methods that dingo-walk (through `volesti` library) provides are the following: (i) 'cdhr': Coordinate Directions Hit-and-Run, (ii) 'rdhr': Random Directions Hit-and-Run,
 (iii) 'billiard_walk', (iv) 'ball_walk', (v) 'dikin_walk', (vi) 'john_walk', (vii) 'vaidya_walk'.
 
 
@@ -188,7 +188,7 @@ The MCMC methods that dingo (through `volesti` library) provides are the followi
 
 #### Fast and slow mode
 
-If you have installed successfully the `gurobi` library, dingo turns to the *fast mode* by default. To set a certain mode you could use the following member functions,
+If you have installed successfully the `gurobi` library, dingo-walk turns to the *fast mode* by default. To set a certain mode you could use the following member functions,
 
 ```python
 sampler = polytope_sampler(model)
@@ -205,7 +205,7 @@ sampler.set_slow_mode()
 To apply FVA and FBA methods you have to use the class `metabolic_network`,
 
 ```python
-from dingo import MetabolicNetwork
+from dingo-walk import MetabolicNetwork
 
 model = MetabolicNetwork.from_json('path/to/model_file.json')
 fva_output = model.fva()
@@ -233,7 +233,7 @@ while the output vectors are the same with the previous example.
 
 ### Set the restriction in the flux space
 
-FVA and FBA,  restrict the flux space to the set of flux vectors that have an objective value equal to the optimal value of the function. dingo allows for a more  relaxed option where you could ask for flux vectors that have an objective value equal to at least a percentage of the optimal value,
+FVA and FBA,  restrict the flux space to the set of flux vectors that have an objective value equal to the optimal value of the function. dingo-walk allows for a more  relaxed option where you could ask for flux vectors that have an objective value equal to at least a percentage of the optimal value,
 
 ```python
 model.set_opt_percentage(90)
@@ -273,7 +273,7 @@ steady_states = sampler.generate_steady_states()
 The generated steady states can be used to estimate the marginal density function of each flux. You can plot the histogram using the samples,
 
 ```python
-from dingo import plot_histogram
+from dingo-walk import plot_histogram
 
 model = MetabolicNetwork.from_json('path/to/e_coli_core.json')
 sampler = PolytopeSampler(model)
@@ -288,7 +288,7 @@ plot_histogram(
         )
 ```
 
-The default number of bins is 60. dingo uses the package `matplotlib` for plotting.
+The default number of bins is 60. dingo-walk uses the package `matplotlib` for plotting.
 
 ![histogram](./doc/e_coli_aconta.png)
 
@@ -297,7 +297,7 @@ The default number of bins is 60. dingo uses the package `matplotlib` for plotti
 The generated steady states can be used to estimate and plot the copula between two fluxes. You can plot the copula using the samples,
 
 ```python
-from dingo import plot_copula
+from dingo-walk import plot_copula
 
 model = MetabolicNetwork.from_json('path/to/e_coli_core.json')
 sampler = PolytopeSampler(model)
@@ -312,7 +312,7 @@ data_flux1=[steady_states[13],reactions[13]]
 plot_copula(data_flux1, data_flux2, n=10)
 ```
 
-The default number of cells is 5x5=25. dingo uses the package `plotly` for plotting.
+The default number of cells is 5x5=25. dingo-walk uses the package `plotly` for plotting.
 
 ![histogram](./doc/aconta_ppc_copula.png)
 

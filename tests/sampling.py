@@ -1,5 +1,5 @@
-# dingo : a python library for metabolic networks sampling and analysis
-# dingo is part of GeomScale project
+# dingo-walk : a python library for metabolic networks sampling and analysis
+# dingo-walk is part of GeomScale project
 
 # Copyright (c) 2022 Apostolos Chalkis
 # Copyright (c) 2022 Vissarion Fisikopoulos
@@ -9,7 +9,7 @@
 
 import unittest
 import os
-from dingo import MetabolicNetwork, PolytopeSampler
+from dingo-walk import MetabolicNetwork, PolytopeSampler
 
 
 class TestSampling(unittest.TestCase):
@@ -32,7 +32,7 @@ class TestSampling(unittest.TestCase):
         model = MetabolicNetwork.from_mat(input_file_mat)
         sampler = PolytopeSampler(model)
 
-        steady_states = sampler.generate_steady_states(ess = 20000, psrf = True) 
+        steady_states = sampler.generate_steady_states(ess = 20000, psrf = True)
 
         self.assertTrue( steady_states.shape[0] == 95 )
         self.assertTrue( abs( steady_states[12].mean()  - 2.504 ) < 1e-02 )

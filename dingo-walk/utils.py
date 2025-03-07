@@ -1,5 +1,5 @@
-# dingo : a python library for metabolic networks sampling and analysis
-# dingo is part of GeomScale project
+# dingo-walk : a python library for metabolic networks sampling and analysis
+# dingo-walk is part of GeomScale project
 
 # Copyright (c) 2021 Apostolos Chalkis
 
@@ -9,8 +9,8 @@ import numpy as np
 import math
 import scipy.sparse as sp
 from scipy.sparse import diags
-from dingo.scaling import gmscale
-from dingo.nullspace import nullspace_dense, nullspace_sparse
+from dingo-walk.scaling import gmscale
+from dingo-walk.nullspace import nullspace_dense, nullspace_sparse
 
 def compute_copula(flux1, flux2, n):
     """A Python function to estimate the copula between two fluxes
@@ -34,14 +34,14 @@ def compute_copula(flux1, flux2, n):
         rng = range((j*math.floor(N/n)),((j+1)*math.floor(N/n)))
         grouped_flux1[I1[rng]] = j
         grouped_flux2[I2[rng]] = j
-    
+
     for i in range(n):
         for j in range(n):
             copula[i,j] = sum((grouped_flux1==i) *( grouped_flux2==j))
-    
+
     copula = copula / N
     return copula
-    
+
 
 def apply_scaling(A, b, cs, rs):
     """A Python function to apply the scaling computed by the function `gmscale` to a convex polytope

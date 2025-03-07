@@ -1,5 +1,5 @@
-# dingo : a python library for metabolic networks sampling and analysis
-# dingo is part of GeomScale project
+# dingo-walk : a python library for metabolic networks sampling and analysis
+# dingo-walk is part of GeomScale project
 
 # Copyright (c) 2021 Apostolos Chalkis
 # Copyright (c) 2021 Vissarion Fisikopoulos
@@ -10,12 +10,12 @@ import unittest
 import os
 import scipy
 import numpy as np
-from dingo import MetabolicNetwork
-from dingo.scaling import gmscale
+from dingo-walk import MetabolicNetwork
+from dingo-walk.scaling import gmscale
 
 
 class TestScaling(unittest.TestCase):
-    
+
     def test_scale_json(self):
 
         input_file_json = os.getcwd() + "/ext_data/e_coli_core.json"

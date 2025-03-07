@@ -1,12 +1,12 @@
-# dingo : a python library for metabolic networks sampling and analysis
-# dingo is part of GeomScale project
+# dingo-walk : a python library for metabolic networks sampling and analysis
+# dingo-walk is part of GeomScale project
 
 # Copyright (c) 2021 Apostolos Chalkis
 # Copyright (c) 2024 Vissarion Fisikopoulos
 
 # Licensed under GNU LGPL.3, see LICENCE file
 
-# This is the setup Python script for building the dingo library
+# This is the setup Python script for building the dingo-walk library
 
 from distutils.core import setup
 from distutils.core import Extension
@@ -15,17 +15,17 @@ from os.path import join
 import numpy
 import os
 
-# information about the dingo library
+# information about the dingo-walk library
 version = "0.1.0"
 license = ("LGPL3",)
-packages = ["dingo"]
+packages = ["dingo-walk"]
 description = "A python library for metabolic networks sampling and analysis"
 author = "Apostolos Chalkis"
 author_email = "tolis.chal@gmail.com"
-name = "dingo"
+name = "dingo-walk"
 
 
-source_directory_list = ["dingo", join("dingo", "bindings")]
+source_directory_list = ["dingo-walk", join("dingo-walk", "bindings")]
 
 compiler_args = ["-std=c++11", "-O3", "-DBOOST_NO_AUTO_PTR", "-ldl", "-lm", "-fopenmp"]
 lp_solve_compiler_args = ["-DYY_NEVER_INTERACTIVE", "-DLoadInverseLib=0", "-DLoadLanguageLib=0",
@@ -35,7 +35,7 @@ link_args = ["-O3", "-fopenmp"]
 
 extra_volesti_include_dirs = [
     # include binding files
-    join("dingo", "bindings"),
+    join("dingo-walk", "bindings"),
     # the volesti code uses some external classes.
     # external directories we need to add
     join("eigen"),
@@ -82,8 +82,8 @@ src_files = ["lp_solve_5.5/bfp/bfp_LUSOL/lp_LUSOL.c"
     , "lp_solve_5.5/lp_SOS.c"
     , "lp_solve_5.5/lp_utils.c"
     , "lp_solve_5.5/lp_wlp.c"
-    , "dingo/volestipy.pyx"
-    , "dingo/bindings/bindings.cpp"]
+    , "dingo-walk/volestipy.pyx"
+    , "dingo-walk/bindings/bindings.cpp"]
 
 # Return the directory that contains the NumPy *.h header files.
 # Extension modules that need to compile against NumPy should use this
@@ -112,4 +112,4 @@ setup(
     ext_modules=ext_modules,
 )
 
-print("Installation of dingo completed.")
+print("Installation of dingo-walk completed.")

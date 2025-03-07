@@ -1,5 +1,5 @@
-# dingo : a python library for metabolic networks sampling and analysis
-# dingo is part of GeomScale project
+# dingo-walk : a python library for metabolic networks sampling and analysis
+# dingo-walk is part of GeomScale project
 
 # Copyright (c) 2021 Apostolos Chalkis
 
@@ -9,30 +9,30 @@ import numpy as np
 import sys
 import os
 import pickle
-from dingo.fva import slow_fva
-from dingo.fba import slow_fba
-from dingo.loading_models import read_json_file
-from dingo.inner_ball import slow_inner_ball
-from dingo.nullspace import nullspace_dense, nullspace_sparse
-from dingo.scaling import gmscale
-from dingo.utils import (
+from dingo-walk.fva import slow_fva
+from dingo-walk.fba import slow_fba
+from dingo-walk.loading_models import read_json_file
+from dingo-walk.inner_ball import slow_inner_ball
+from dingo-walk.nullspace import nullspace_dense, nullspace_sparse
+from dingo-walk.scaling import gmscale
+from dingo-walk.utils import (
     apply_scaling,
     remove_almost_redundant_facets,
     map_samples_to_steady_states,
     get_matrices_of_low_dim_polytope,
     get_matrices_of_full_dim_polytope,
 )
-from dingo.illustrations import (
+from dingo-walk.illustrations import (
     plot_copula,
     plot_histogram,
 )
-from dingo.parser import dingo_args
-from dingo.MetabolicNetwork import MetabolicNetwork
-from dingo.PolytopeSampler import PolytopeSampler
+from dingo-walk.parser import dingo-walk_args
+from dingo-walk.MetabolicNetwork import MetabolicNetwork
+from dingo-walk.PolytopeSampler import PolytopeSampler
 
 try:
     import gurobipy
-    from dingo.gurobi_based_implementations import fast_fba, fast_fva, fast_inner_ball
+    from dingo-walk.gurobi_based_implementations import fast_fba, fast_fva, fast_inner_ball
 except ImportError as e:
     pass
 
@@ -57,12 +57,12 @@ def get_name(args_network):
     return name
 
 
-def dingo_main():
-    """A function that (a) reads the inputs using argparse package, (b) calls the proper dingo pipeline
+def dingo-walk_main():
+    """A function that (a) reads the inputs using argparse package, (b) calls the proper dingo-walk pipeline
     and (c) saves the outputs using pickle package
     """
 
-    args = dingo_args()
+    args = dingo-walk_args()
 
     if args.metabolic_network is None and args.polytope is None and not args.histogram:
         raise Exception(
@@ -148,8 +148,8 @@ def dingo_main():
 
         result_obj = model.fva()
 
-        with open("dingo_fva_" + name + ".pckl", "wb") as dingo_fva_file:
-            pickle.dump(result_obj, dingo_fva_file)
+        with open("dingo-walk_fva_" + name + ".pckl", "wb") as dingo-walk_fva_file:
+            pickle.dump(result_obj, dingo-walk_fva_file)
 
     elif args.fba:
 
@@ -171,8 +171,8 @@ def dingo_main():
 
         result_obj = model.fba()
 
-        with open("dingo_fba_" + name + ".pckl", "wb") as dingo_fba_file:
-            pickle.dump(result_obj, dingo_fba_file)
+        with open("dingo-walk_fba_" + name + ".pckl", "wb") as dingo-walk_fba_file:
+            pickle.dump(result_obj, dingo-walk_fba_file)
 
     elif args.metabolic_network is not None:
 
@@ -194,13 +194,13 @@ def dingo_main():
                 name,
             )
 
-            with open("dingo_model_" + name + ".pckl", "wb") as dingo_model_file:
-                pickle.dump(model, dingo_model_file)
+            with open("dingo-walk_model_" + name + ".pckl", "wb") as dingo-walk_model_file:
+                pickle.dump(model, dingo-walk_model_file)
 
             with open(
-                "dingo_polytope_sampler_" + name + ".pckl", "wb"
-            ) as dingo_polytope_file:
-                pickle.dump(polytope_info, dingo_polytope_file)
+                "dingo-walk_polytope_sampler_" + name + ".pckl", "wb"
+            ) as dingo-walk_polytope_file:
+                pickle.dump(polytope_info, dingo-walk_polytope_file)
 
         else:
 
@@ -216,18 +216,18 @@ def dingo_main():
                 name,
             )
 
-            with open("dingo_model_" + name + ".pckl", "wb") as dingo_model_file:
-                pickle.dump(model, dingo_model_file)
+            with open("dingo-walk_model_" + name + ".pckl", "wb") as dingo-walk_model_file:
+                pickle.dump(model, dingo-walk_model_file)
 
             with open(
-                "dingo_polytope_sampler_" + name + ".pckl", "wb"
-            ) as dingo_polytope_file:
-                pickle.dump(polytope_info, dingo_polytope_file)
+                "dingo-walk_polytope_sampler_" + name + ".pckl", "wb"
+            ) as dingo-walk_polytope_file:
+                pickle.dump(polytope_info, dingo-walk_polytope_file)
 
             with open(
-                "dingo_steady_states_" + name + ".pckl", "wb"
-            ) as dingo_steadystates_file:
-                pickle.dump(steady_states, dingo_steadystates_file)
+                "dingo-walk_steady_states_" + name + ".pckl", "wb"
+            ) as dingo-walk_steadystates_file:
+                pickle.dump(steady_states, dingo-walk_steadystates_file)
 
     else:
 
@@ -246,7 +246,7 @@ def dingo_main():
             )
 
         else:
-            raise Exception("The input file has to be generated by dingo package.")
+            raise Exception("The input file has to be generated by dingo-walk package.")
 
         if args.model_name is None:
             name = input_obj[-1]
@@ -257,14 +257,14 @@ def dingo_main():
         )
 
         with open(
-            "dingo_polytope_sampler" + name + "_improved.pckl", "wb"
-        ) as dingo_polytope_file:
-            pickle.dump(polytope_info, dingo_polytope_file)
+            "dingo-walk_polytope_sampler" + name + "_improved.pckl", "wb"
+        ) as dingo-walk_polytope_file:
+            pickle.dump(polytope_info, dingo-walk_polytope_file)
 
-        with open("dingo_steady_states_" + name + ".pckl", "wb") as dingo_network_file:
-            pickle.dump(steady_states, dingo_network_file)
+        with open("dingo-walk_steady_states_" + name + ".pckl", "wb") as dingo-walk_network_file:
+            pickle.dump(steady_states, dingo-walk_network_file)
 
 
 if __name__ == "__main__":
 
-    dingo_main()
+    dingo-walk_main()

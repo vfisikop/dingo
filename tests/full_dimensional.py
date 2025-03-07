@@ -1,5 +1,5 @@
-# dingo : a python library for metabolic networks sampling and analysis
-# dingo is part of GeomScale project
+# dingo-walk : a python library for metabolic networks sampling and analysis
+# dingo-walk is part of GeomScale project
 
 # Copyright (c) 2021 Apostolos Chalkis
 # Copyright (c) 2021 Vissarion Fisikopoulos
@@ -8,7 +8,7 @@
 
 import unittest
 import os
-from dingo import MetabolicNetwork, PolytopeSampler
+from dingo-walk import MetabolicNetwork, PolytopeSampler
 
 class TestFullDim(unittest.TestCase):
 

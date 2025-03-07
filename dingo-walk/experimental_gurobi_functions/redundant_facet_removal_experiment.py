@@ -1,5 +1,5 @@
-# dingo : a python library for metabolic networks sampling and analysis
-# dingo is part of GeomScale project
+# dingo-walk : a python library for metabolic networks sampling and analysis
+# dingo-walk is part of GeomScale project
 
 # Copyright (c) 2021 Apostolos Chalkis
 
@@ -153,7 +153,7 @@ def fast_remove_redundant_facets(lb, ub, S, c, opt_percentage=100):
 
                     b_res = []
                     A_res = np.empty((0, n), float)
-                   
+
                     update_model_constraints_and_bounds(model_iter, Aeq_sparse, beq, A_sparse, [val], lb, ub)
 
 

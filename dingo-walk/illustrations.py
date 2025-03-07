@@ -1,5 +1,5 @@
-# dingo : a python library for metabolic networks sampling and analysis
-# dingo is part of GeomScale project
+# dingo-walk : a python library for metabolic networks sampling and analysis
+# dingo-walk is part of GeomScale project
 
 # Copyright (c) 2022 Apostolos Chalkis, Vissarion Fisikopoulos, Elias Tsigaridas
 
@@ -9,7 +9,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import plotly.graph_objects as go
 import plotly.io as pio
-from dingo.utils import compute_copula
+from dingo-walk.utils import compute_copula
 
 def plot_copula(data_flux1, data_flux2, n = 5, width = 900 , height = 600, export_format = "svg"):
     """A Python function to plot the copula between two fluxes
@@ -29,7 +29,7 @@ def plot_copula(data_flux1, data_flux2, n = 5, width = 900 , height = 600, expor
     fig = go.Figure(
             data   = [go.Surface(z=copula)],
             layout = go.Layout(
-                height = height, 
+                height = height,
                 width  = width,
             )
         )
@@ -45,7 +45,7 @@ def plot_copula(data_flux1, data_flux2, n = 5, width = 900 , height = 600, expor
             margin=dict(r=30, b=30, l=30, t=50))
 
     fig.layout.template = None
-    
+
     fig.show()
     fig_name = data_flux1[1] + "_" + data_flux2[1] + "_copula." + export_format
 

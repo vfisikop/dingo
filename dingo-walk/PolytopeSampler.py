@@ -1,5 +1,5 @@
-# dingo : a python library for metabolic networks sampling and analysis
-# dingo is part of GeomScale project
+# dingo-walk : a python library for metabolic networks sampling and analysis
+# dingo-walk is part of GeomScale project
 
 # Copyright (c) 2021 Apostolos Chalkis
 
@@ -9,9 +9,9 @@
 import numpy as np
 import warnings
 import math
-from dingo.MetabolicNetwork import MetabolicNetwork
-from dingo.fva import slow_fva
-from dingo.utils import (
+from dingo-walk.MetabolicNetwork import MetabolicNetwork
+from dingo-walk.fva import slow_fva
+from dingo-walk.utils import (
     map_samples_to_steady_states,
     get_matrices_of_low_dim_polytope,
     get_matrices_of_full_dim_polytope,
@@ -19,7 +19,7 @@ from dingo.utils import (
 
 try:
     import gurobipy
-    from dingo.gurobi_based_implementations import (
+    from dingo-walk.gurobi_based_implementations import (
         fast_fba,
         fast_fva,
         fast_inner_ball,
@@ -185,7 +185,7 @@ class PolytopeSampler:
         self._T_shift = np.add(self._T_shift, Tr_shift)
 
         return steady_states
-    
+
     def generate_steady_states_no_multiphase(
         self, method = 'billiard_walk', n=1000, burn_in=0, thinning=1, variance=1.0, bias_vector=None
     ):
@@ -197,11 +197,11 @@ class PolytopeSampler:
         burn_in -- the number of points to burn before sampling
         thinning -- the walk length of the chain
         """
-        	
+
         self.get_polytope()
 
         P = HPolytope(self._A, self._b)
-        
+
         if bias_vector is None:
             bias_vector = np.ones(self._A.shape[1], dtype=np.float64)
         else:
@@ -245,7 +245,7 @@ class PolytopeSampler:
             )
 
         return samples
-    
+
     @staticmethod
     def sample_from_polytope_no_multiphase(
         A, b, method = 'billiard_walk', n=1000, burn_in=0, thinning=1, variance=1.0, bias_vector=None
@@ -264,7 +264,7 @@ class PolytopeSampler:
             bias_vector = np.ones(A.shape[1], dtype=np.float64)
         else:
             bias_vector = bias_vector.astype('float64')
-            
+
         P = HPolytope(A, b)
 
         try:
@@ -286,7 +286,7 @@ class PolytopeSampler:
             A, b, Tr, Tr_shift, round_value = P.rounding(method, True)
         except ImportError as e:
             A, b, Tr, Tr_shift, round_value = P.rounding(method, False)
-        
+
         return A, b, Tr, Tr_shift
 
     @staticmethod
@@ -383,7 +383,7 @@ class PolytopeSampler:
 
         if (not self._parameters["fast_computations"]) and value:
             warnings.warn(
-                "Since you are in slow mode the redundancy removal step is skipped (dingo does not currently support this functionality in slow mode)"
+                "Since you are in slow mode the redundancy removal step is skipped (dingo-walk does not currently support this functionality in slow mode)"
             )
 
     def set_fast_mode(self):

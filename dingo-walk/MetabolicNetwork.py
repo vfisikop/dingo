@@ -1,5 +1,5 @@
-# dingo : a python library for metabolic networks sampling and analysis
-# dingo is part of GeomScale project
+# dingo-walk : a python library for metabolic networks sampling and analysis
+# dingo-walk is part of GeomScale project
 
 # Copyright (c) 2021 Apostolos Chalkis
 # Copyright (c) 2021 Vissarion Fisikopoulos
@@ -10,13 +10,13 @@ import numpy as np
 import sys
 from typing import Dict
 import cobra
-from dingo.loading_models import read_json_file, read_mat_file, read_sbml_file, parse_cobra_model
-from dingo.fva import slow_fva
-from dingo.fba import slow_fba
+from dingo-walk.loading_models import read_json_file, read_mat_file, read_sbml_file, parse_cobra_model
+from dingo-walk.fva import slow_fva
+from dingo-walk.fba import slow_fba
 
 try:
     import gurobipy
-    from dingo.gurobi_based_implementations import fast_fba, fast_fva, fast_inner_ball
+    from dingo-walk.gurobi_based_implementations import fast_fba, fast_fva, fast_inner_ball
 except ImportError as e:
     pass
 
@@ -275,12 +275,12 @@ class MetabolicNetwork:
         # Turn off reactions not present in media
         for rxn_id in exchange_rxns - frozen_media_rxns:
             """
-            is_export for us, needs to check on the S 
-            order reactions to their lb and ub 
+            is_export for us, needs to check on the S
+            order reactions to their lb and ub
             """
             # is_export = rxn.reactants and not rxn.products
             reac_index = self._reactions.index(rxn_id)
-            products = np.any(self._S[:,reac_index] > 0) 
+            products = np.any(self._S[:,reac_index] > 0)
             reactants_exist = np.any(self._S[:,reac_index] < 0)
             is_export = True if not products and reactants_exist else False
             set_active_bound(

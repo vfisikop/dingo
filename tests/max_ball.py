@@ -1,5 +1,5 @@
-# dingo : a python library for metabolic networks sampling and analysis
-# dingo is part of GeomScale project
+# dingo-walk : a python library for metabolic networks sampling and analysis
+# dingo-walk is part of GeomScale project
 
 # Copyright (c) 2021 Apostolos Chalkis
 # Copyright (c) 2021 Vissarion Fisikopoulos
@@ -10,13 +10,13 @@ import unittest
 import os
 import scipy
 import numpy as np
-from dingo import MetabolicNetwork, PolytopeSampler
-from dingo.inner_ball import slow_inner_ball
-from dingo.scaling import gmscale
+from dingo-walk import MetabolicNetwork, PolytopeSampler
+from dingo-walk.inner_ball import slow_inner_ball
+from dingo-walk.scaling import gmscale
 
 
 class TestMaxBall(unittest.TestCase):
-    
+
     def test_simple(self):
         m = 2
         n = 5
